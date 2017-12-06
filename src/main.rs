@@ -1,6 +1,8 @@
 use std::fs::File;
 use std::io::prelude::*;
 use std::collections::HashSet;
+use std::collections::HashMap;
+use std::cmp::Ordering;
 fn main() {
     println!("Hello, world!");
     //day_two(Part::PartOne);
@@ -8,6 +10,8 @@ fn main() {
    // day_three(Part::PartOne);
     day_four(Part::PartOne);
     day_four(Part::PartTwo);
+    day_six(Part::PartOne);
+    day_six(Part::PartTwo);
 }
 fn read_input(day:u16) -> String{
     let path = format!("day{}.txt", day);
@@ -74,8 +78,8 @@ fn day_one(part:Part){
 
     let length = input.len();
     let offset = match  part{
-        part::PartOne => 1,
-        part::PartTwo => length/2
+        Part::PartOne => 1,
+        Part::PartTwo => length/2
     };
 
     let mut sum = 0;
@@ -196,7 +200,7 @@ fn day_four(part:Part){
     let input = read_input(4);
     let mut count = 0;
     for line in input.lines(){
-        let mut tokens:Vec<&str> = line.split_whitespace().collect();
+        let tokens:Vec<&str> = line.split_whitespace().collect();
         let total = tokens.len();
         let mut comp:HashSet<String> = HashSet::new();
         for element in tokens.into_iter(){
@@ -219,22 +223,22 @@ fn day_four(part:Part){
     println!("{}",count);
 
 }
-fn day_five(part:part){
-    let input = read_puzzle(5);
+fn day_five(part:Part){
+    let input = read_input(5);
     let mut instructions:Vec<i32> = input.lines()
         .map(|s| s.parse().unwrap())
         .collect();
     let mut index:usize = 0;
     let mut steps = 0;
     let bound = instructions.len();
-    while index >= 0 && index < bound{
+    while index < bound{
         steps+=1;
         let inst = instructions[index];
         match part{
-            part::PartOne=>{
+            Part::PartOne=>{
                 instructions[index] = inst+1;
             },
-            part::PartTwo=>{
+            Part::PartTwo=>{
                 if inst>= 3{
                     instructions[index] = inst-1;
                 } else {
@@ -246,4 +250,56 @@ fn day_five(part:part){
 
     }
     println!("{}", steps);
+}
+fn day_six(part:Part){
+    let input = read_input(6);
+    let mut blocks:Vec<i32> = input.split_whitespace()
+        .map(|s| s.parse().unwrap())
+        .collect();
+    let mut seen_set = HashSet::new();
+    let mut cycles = 0;
+    loop{
+        //println!("{:?}", blocks);
+
+        if seen_set.contains(&blocks){
+            break;
+        }else{
+            seen_set.insert(blocks.clone());
+        }
+        cycles += 1;
+        blocks = redistribute(blocks);
+    }
+    let loop_state = blocks.clone();
+    blocks = redistribute(blocks);
+    match part{
+        Part::PartOne=>{
+            println!("{}", cycles);
+        },
+        Part::PartTwo=>{
+            cycles = 1;
+            while blocks != loop_state {
+                cycles += 1;
+                blocks = redistribute(blocks);
+            }
+            println!("{}", cycles);
+        }
+    }
+}
+fn redistribute(mut input:Vec<i32>) -> Vec<i32>{
+    let temp = input.clone();
+    let max = temp.iter()
+        .max()
+        .unwrap();
+    let mut index = temp.iter().position(|x| x== max).unwrap();
+    let mut current = *max;
+   // println!("max:{}, index{}", max, index);
+    input[index] = 0;
+    let size = input.len();
+    while current > 0{
+        index+=1;
+        input[index%size] += 1;
+        current -= 1;
+    }
+    input
+
 }
