@@ -8,10 +8,12 @@ fn main() {
     //day_two(Part::PartOne);
     //day_two(Part::PartTwo);
    // day_three(Part::PartOne);
-    day_four(Part::PartOne);
-    day_four(Part::PartTwo);
-    day_six(Part::PartOne);
-    day_six(Part::PartTwo);
+    //day_four(Part::PartOne);
+    //day_four(Part::PartTwo);
+    //day_six(Part::PartOne);
+    //day_six(Part::PartTwo);
+    day_seven(Part::PartOne);
+
 }
 fn read_input(day:u16) -> String{
     let path = format!("day{}.txt", day);
@@ -71,6 +73,12 @@ fn get_neighbors(point:&Point) -> Vec<Point>{
         }
     }
     neighbors
+}
+#[derive(Hash, Eq, PartialEq, Debug, Clone)]
+struct Node{
+    weight:i32,
+    name:String,
+    children:Vec<String>,
 }
 fn day_one(part:Part){
     let puzzle = read_input(1);
@@ -285,8 +293,42 @@ fn day_six(part:Part){
         }
     }
 }
-fn day_eight(Part:part){
-    let input = read_puzzle(8);
+fn day_seven(part:Part){
+    let input = read_input(7);
+    let mut rows:Vec<String> = input.lines()
+        .map(|s| s.replace("->", ""))
+        .map(|s| s.replace(",", ""))
+        .map(|s| s.replace("(", ""))
+        .map(|s| s.replace(")",""))
+        .collect();
+    let mut nodes:Vec<Node> = Vec::new();
+    let mut weights:HashMap<String, i32> = HashMap::new();
+    for row in rows{
+        let mut element_it = row.split_whitespace();
+        let name = element_it.next().unwrap().to_string();
+        let weight = element_it.next().unwrap().parse().unwrap();
+        let mut children:Vec<String> = Vec::new();
+        for token in element_it{
+            children.push(token.to_string());
+        }
+        weights.insert(name.clone(), weight);
+        nodes.push(Node{weight:weight, name:name, children:children});
+    }
+    let mut child_names:HashSet<String> = HashSet::new();
+    for node in nodes.iter(){
+        for child in node.children.iter(){
+            child_names.insert(child.clone());
+        }
+    }
+    for node in nodes {
+        if !child_names.contains(&node.name){
+            println!("{}", node.name);
+        }
+    }
+    //println!("{}", nodes.len());
+}
+fn day_eight(part:Part){
+    let input = read_input(8);
     let mut registers:HashMap<String, i32> = HashMap::new();
     let mut current_max = 0;
     for row in input.lines(){
@@ -344,16 +386,17 @@ fn day_eight(Part:part){
         }
     }
     match part{
-        part::PartOne=>{
+        Part::PartOne=>{
             println!("Final highest register value is {}", registers.values().max().unwrap());
         },
-        part::PartTwo=>{
+        Part::PartTwo=>{
             println!("Top ever value was {}", current_max);
         }
     }
     //println!("{}", registers.values().max().unwrap());
     //println!("{}", current_max);
 }
+
 fn redistribute(mut input:Vec<i32>) -> Vec<i32>{
     let temp = input.clone();
     let max = temp.iter()
