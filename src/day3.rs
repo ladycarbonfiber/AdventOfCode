@@ -6,7 +6,7 @@ use common::Point;
 
 use std::collections::HashMap;
 
-pub fn day_three(part:Part){
+pub fn solve(part:Part){
     let input:i32 = read_input(3).trim().parse().unwrap();
     let mut target = 0;
     match part{

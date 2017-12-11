@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use common::read_input;
 use common::Part;
-pub fn day_four(part:Part){
+pub fn solve(part:Part){
     let input = read_input(4);
     let mut count = 0;
     for line in input.lines(){

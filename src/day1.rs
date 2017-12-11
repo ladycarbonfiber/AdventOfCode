@@ -1,7 +1,7 @@
 
 use common::read_input;
 use common::Part;
-pub fn day_one(part:Part){
+pub fn solve(part:Part){
     let puzzle = read_input(1);
     let input = puzzle.trim();
 

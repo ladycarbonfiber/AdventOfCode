@@ -1,6 +1,6 @@
 use common::read_input;
 use common::Part;
-pub fn day_two(part:Part){
+pub fn solve(part:Part){
     let input = read_input(2);
     let mut row_vals:Vec<i32> = Vec::new();
     for row in input.lines(){

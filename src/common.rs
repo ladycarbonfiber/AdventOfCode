@@ -59,27 +59,4 @@ pub fn get_neighbors(point:&Point) -> Vec<Point>{
     }
     neighbors
 }
-pub fn redistribute(mut input:Vec<i32>) -> Vec<i32>{
-    let temp = input.clone();
-    let max = temp.iter()
-        .max()
-        .unwrap();
-    let mut index = temp.iter().position(|x| x== max).unwrap();
-    let mut current = *max;
-    // println!("max:{}, index{}", max, index);
-    input[index] = 0;
-    let size = input.len();
-    while current > 0{
-        index+=1;
-        input[index%size] += 1;
-        current -= 1;
-    }
-    input
 
-}
-#[derive(Hash, Eq, PartialEq, Debug, Clone)]
-pub struct Node{
-    pub weight:i32,
-    pub name:String,
-    pub children:Vec<String>,
-}
