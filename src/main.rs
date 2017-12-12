@@ -10,12 +10,11 @@ mod day8;
 mod day9;
 mod day10;
 mod day11;
+mod day12;
 
 extern crate petgraph;
 extern crate itertools;
 
-use std::collections::HashSet;
-use std::collections::HashMap;
 
 use common::*;
 fn main() {
@@ -35,6 +34,8 @@ fn main() {
     //day10::solve(Part::PartTwo);
     day11::solve(Part::PartOne);
     day11::solve(Part::PartTwo);
+    day12::solve(Part::PartOne);
+    day12::solve(Part::PartTwo);
 
 }
 
