@@ -84,7 +84,7 @@ pub fn solve(part:Part){
                         value.reset();
                     }
                     delay+=1;
-                    if delay % 100 == 0 {
+                    if delay % 10000 == 0 {
                         println!("Trying with {}", delay);
                     }
                 }

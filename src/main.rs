@@ -12,6 +12,7 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 
 extern crate petgraph;
 extern crate itertools;
@@ -37,8 +38,9 @@ fn main() {
 //    day11::solve(Part::PartTwo);
 //    day12::solve(Part::PartOne);
 //    day12::solve(Part::PartTwo);
-   day13::solve(Part::PartOne);
-   day13::solve(Part::PartTwo);
+   //day13::solve(Part::PartOne);
+   //day13::solve(Part::PartTwo);
+    day14::solve(Part::PartOne);
 
 }
 

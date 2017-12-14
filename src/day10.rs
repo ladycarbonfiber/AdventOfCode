@@ -40,6 +40,7 @@ pub fn solve(part:Part){
         Part::PartOne=>{
             let val = line[0] * line[1];
             println!("product of the first two numbers is: {}", val);
+            //""
         },
         Part::PartTwo=>{
             let block_size = 16;
@@ -47,7 +48,9 @@ pub fn solve(part:Part){
                 .map(|chunk| chunk.iter().fold(0, |acc, &v| acc ^ v as u8))
                 .map(|v| format!("{:x}", v))
                 .collect();
-            println!("{}", dense.join(""));
+            let out = dense.join("");
+            println!("{}", &out);
+            //out
             //println!("Not implemented");
         }
     }
